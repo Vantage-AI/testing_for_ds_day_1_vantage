@@ -1,4 +1,5 @@
 from hanoi.basics import Position, number_of_positions, number_of_steps_of_solution
+import pytest
 
 
 # -- Exercise 1* --
@@ -24,6 +25,11 @@ def test_number_of_positions() -> None:
 # Implement number_of_steps_of_solution() in hanoi/basics.py, which returns the number of steps it takes to solve the
 # Tower of Hanoi with n disks. Write a test with multiple asserts, that checks if your implementation is correct if the
 # number of disks is 1, 2 or 3.
+
+@pytest.mark.parametrize(("input","expected"), [(1,1),(2,3),(3,7)])
+def test_number_of_steps(input, expected) -> None:
+    assert number_of_steps_of_solution(input) == expected
+    
 
 
 # -- Exercise 5 --
