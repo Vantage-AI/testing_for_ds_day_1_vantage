@@ -1,4 +1,6 @@
 from hanoi.basics import Position, number_of_positions, number_of_steps_of_solution
+import pytest
+import multiprocessing
 
 
 # -- Exercise 1* --
@@ -13,12 +15,20 @@ def test_number_of_positions() -> None:
 
 # -- Exercise 2 --
 # Write a test to find out what happens if you implement two tests with the same name.
+def test_number_of_positions() -> None:
+    dummy1 = 3
+    dummy2 = 3
+    assert dummy1 == dummy2
 
 
 # -- Exercise 3 --
 # Write a test to find out whether code after the assert-line is executed.
 # Does this depend on the outcome of the assertion?
-
+def test_code_after_assert() -> None:
+    dummy1 = 3
+    dummy2 = 3
+    assert dummy1 == dummy2
+    print('HOOOOOOIIIIII')
 
 # -- Exercise 4* --
 # Implement number_of_steps_of_solution() in hanoi/basics.py, which returns the number of steps it takes to solve the
@@ -26,14 +36,29 @@ def test_number_of_positions() -> None:
 # number of disks is 1, 2 or 3.
 
 
+@pytest.mark.parametrize(('number_of_disks'), [1, 2, 3])
+def test_number_of_steps(number_of_disks) -> None:
+    if number_of_disks == 1:
+        assert number_of_steps_of_solution(number_of_disks) == 1
+    elif number_of_disks == 2:
+        assert number_of_steps_of_solution(number_of_disks) == 3
+    elif number_of_disks == 3:
+        assert number_of_steps_of_solution(number_of_disks) == 7
 # -- Exercise 5 --
 # Write a test that checks whether the solution for 1000 disks takes more than 1000 steps. But use marks to skip it if
 # the number of available cpus is less than 32.
 
 
+@pytest.mark.skipif(reason="Not enough sauce (aka cpu)", condition=multiprocessing.cpu_count() < 32)
+def test_1000disks_step_amount() -> None:
+    assert number_of_steps_of_solution(1000) > 1000
+
 # -- Exercise 6* --
 # If you call number_of_steps_of_solution() with a string as input, it probably raises an error. For now, we don't know
 # how to handle this properly, so mark the test as a failure.
+
+
+@pytest.mark.xfail(reason="Bug #42")
 def test_wrong_input() -> None:
     number_of_steps_of_solution(number_of_disks="12")  # type: ignore
 

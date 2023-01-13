@@ -2,11 +2,11 @@ import warnings
 
 
 def number_of_positions(number_of_disks: int) -> int:
-    pass
+    return 3**number_of_disks
 
 
 def number_of_steps_of_solution(number_of_disks: int) -> int:
-    pass
+    return (2**number_of_disks)-1
 
 
 class Position:
@@ -16,7 +16,8 @@ class Position:
 
     def _warn_ambitious_players(self) -> None:
         if len(self.representation) > 100:
-            warnings.warn("Are you sure you want to get involved with such a challenge?")
+            warnings.warn(
+                "Are you sure you want to get involved with such a challenge?")
 
     def __str__(self) -> str:
         return self.representation
